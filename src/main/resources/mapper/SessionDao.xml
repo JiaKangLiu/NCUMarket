@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.SessionDao">
+    <!--1.创建session-->
+    <insert id="createJSession">
+        INSERT INTO Session (jsessionid, session_id, open_id)
+        VALUES (#{jsessionid}, #{sessionId}, #{openId});
+    </insert>
+    <!--2.查询session-->
+    <select id="isJsSession" resultType="Integer">
+        SELECT *
+        FROM Session
+        WHERE jsessionid = #{jsessionid};
+    </select>
+</mapper>

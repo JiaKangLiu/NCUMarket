@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.WUserDao">
+    <!--1.创建用户-->
+    <insert id="addUser">
+        INSERT INTO WUser (open_id, nick_name, avatar_url, gender, city)
+        VALUES (#{openId}, #{nickName}, #{avatarUrl}, #{gender}, #{city});
+    </insert>
+    <!--2,更新用户状态-->
+    <update id="changeUserState">
+        UPDATE WUser
+        SET state = #{state}
+        WHERE open_id = #{openId};
+    </update>
+    <!--3.判断用户是否存在-->
+    <select id="isWUser" resultType="int">
+        SELECT COUNT(*)
+        FROM WUser
+        WHERE open_id = #{openId}
+    </select>
+    <!--4.getUserInfo-->
+    <select id="getUserInfo" resultType="WUser">
+        SELECT *
+        FROM WUser
+        WHERE open_id = #{openId}
+    </select>
+</mapper>

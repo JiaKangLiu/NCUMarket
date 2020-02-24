@@ -1,0 +1,283 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    width: 100%;
+    height: 1000px;
+    background-color: #f3f3f3;
+}
+
+.head, .bnav {
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    background-color: #67dcff;
+}
+
+.head {
+    top: 0;
+    z-index: 200;
+}
+
+.loginImg {
+    height: 45%;
+    width: 100%;
+    background: url("/resource/img/login/56aad8c97ceca.jpg");
+
+    display: flex;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 60%, 50%;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+}
+
+.loginbox {
+    padding: 25px;
+    padding-top: 60px;
+
+}
+
+.Loginhead {
+    text-align: center;
+
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: -10px;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.lrbar {
+    width: 50%;
+    text-align: center;
+}
+
+.biginput {
+    font-size: 18px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #f3f3f3;
+}
+
+.inputPad {
+    padding-bottom: 15px;
+}
+
+.block {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin: auto;
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    line-height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: block;
+}
+
+.bnav {
+    bottom: 0;
+    height: 50px;
+}
+
+.wrapper {
+    font-size: 0;
+    margin-top: 40px;
+}
+
+.category {
+    font-size: 12px;
+    color: #1a1a1a;
+    width: 25%;
+    height: 90PX;
+    background: white;
+    display: inline-block;
+
+    box-sizing: content-box;
+}
+
+#c1, #c2, #c3, #c4, #c5, #c6, #c7, #c8 {
+    height: 50px;
+    width: 50px;
+    margin-left: 24%;
+    margin-top: 5%;
+    border-radius: 10px;
+}
+
+#c1 {
+    background: #F0BFF2;
+}
+
+#c2 {
+    background: #EB6C9F;
+}
+
+#c3 {
+    background: #F5FC92;
+}
+
+#c4 {
+    background: #FCA992;
+}
+
+#c5 {
+    background: #B9FC92;
+}
+
+#c6 {
+    background: #9CCDD9;
+}
+
+#c7 {
+    background: #DCF7A1;
+}
+
+#c8 {
+    background: #FDFFDF;
+}
+
+.cTit {
+    text-align: center;
+}
+
+.TittleImg {
+    width: 40px;
+    height: 40px;
+    margin: 8%;
+    display: inline-block;
+}
+
+.headImg {
+    width: 45px;
+    height: 45px;
+    background: #51bbe1;
+    border-radius: 50%;
+}
+
+.headBox {
+    display: inline-block;
+}
+
+.ServiceImg {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ServiceBox {
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.uBox {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 5px;
+}
+
+.uname {
+    font-size: 16px;
+    color: #252525;
+    margin-bottom: 1px;
+}
+
+.uinfo {
+    font-size: 12px;
+    color: #252525;
+}
+
+.servicesCard {
+    margin-bottom: 60px;
+}
+
+.sinfo {
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #717171;
+}
+
+.centerBTN {
+    display: block;
+    margin: auto;
+}
+
+.Bbtn {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sFooter {
+    padding-top: 8px;
+    height: 15px;
+    font-size: 12px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.sSaleCounts {
+    float: left;
+    color: #67dcff;
+}
+
+.sPrice {
+    float: right;
+    color: #FF4351;
+}
+
+.logo {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.rl {
+    float: left;
+    display: block;
+    width: 64px;
+    background: url("/resource/img/logo/BRC.svg") no-repeat left center;
+}
+
+textarea {
+    resize: none;
+}
+
+.formbox {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 50px;
+
+}
+
+.formlogo {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.myfile-drop-zone {
+    border: 1px dashed #aaa;
+    border-radius: 4px;
+    text-align: center;
+    margin: 12px 15px 12px 12px;
+    padding: 5px;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.WAppFormDao">
+    <!--1.GetFormByOpenId-->
+    <select id="GetFormIdByOpenId" resultType="String">
+        SELECT
+            TOP 1 form_id
+        FROM wapp_form
+        WHERE open_id = #{openId}
+              AND used = 0
+              AND DateDiff(dd, created_at, getdate()) &lt;= 7
+        ORDER BY created_at DESC
+    </select>
+
+    <!--2.CreateNewForm-->
+    <insert id="CreateNewForm" parameterType="com.newMedia.entity.WAppForm">
+        INSERT INTO wapp_form (open_id, form_id)
+        VALUES (#{form.openId}, #{form.formId})
+    </insert>
+
+    <!--3.UpdateFormInfo-->
+    <update id="UpdateFormState">
+        UPDATE wapp_form
+        SET used = 1
+        WHERE form_id = #{formId}
+    </update>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.BuyDao">
+    <!--1.getBuyDetail-->
+    <select id="getBuyDetailByProductId" resultType="Buy">
+        SELECT *
+        FROM Buy
+        WHERE product_id = #{productId}
+    </select>
+    <!--2.??????-->
+    <insert id="addBuy">
+        INSERT INTO Buy (product_id, buyer_phone, buyer_openid, buyer_message, receive_method, pay_method)
+        VALUES (#{productId}, #{buyerPhone}, #{buyerOpenid}, #{buyerMessage}, #{receiveMethod}, #{payMethod})
+    </insert>
+    <!--3.??????-->
+    <select id="getBuyCountsByOpenid" resultType="int">
+        SELECT Count(*)
+        FROM Buy
+        WHERE buyer_openid = #{buyerOpenid}
+    </select>
+    <!--4.??????, ????-->
+    <select id="getBuyInfoByOpenidandUid" resultType="Buy">
+        SELECT
+            b.product_id,
+            b.sold_time,
+            b.buyer_phone,
+            b.buyer_openid,
+            b.buyer_message  "message",
+            buyer.open_id    "buyer.id",
+            buyer.nick_name  "buyer.nickName",
+            buyer.avatar_url "buyer.avatarUrl",
+            buyer.gender     "buyer.gender",
+            buyer.city       "buyer.city",
+            buyer.state      "buyer.state",
+            p.id             "product.id",
+            p.product_tittle "product.productTittle",
+            p.product_price  "product.productPrice",
+            p.state          "product.state",
+            p.product_imgurl "product.productImgurl",
+            p.seller_phone   "product.sellerPhone"
+        FROM Buy b INNER JOIN WUser buyer ON (b.buyer_openid = buyer.open_id)
+            INNER JOIN Product p ON (b.product_id = p.id)
+        WHERE b.product_id = #{pid} AND (b.buyer_openid = #{userId} OR p.seller_openid = #{userId})
+    </select>
+
+    <!--5.????????-->
+    <select id="getBoughtProductsByOpenid" resultType="MineProduct">
+        SELECT
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            b.sold_time    "time",
+            p.seller_phone "phone",
+            p.product_price,
+            p.state
+        FROM
+            Buy b INNER JOIN Product p ON b.product_id = p.id
+        WHERE b.buyer_openid = #{buyerOpenId}
+    </select>
+
+    <!--6.????????-->
+    <select id="getSoldProductsByOpenid" resultType="MineProduct">
+        SELECT
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            b.sold_time   "time",
+            b.buyer_phone "phone",
+            p.product_price,
+            p.state
+        FROM
+            Buy b INNER JOIN Product p ON b.product_id = p.id
+        WHERE p.seller_openid = #{sellerOpenId}
+    </select>
+
+</mapper>

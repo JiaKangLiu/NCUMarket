@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.CreateServiceCodeDao">
+    <insert id="createCommitCode">
+        INSERT INTO CommitCode (jsessionid, commit_code)
+        VALUES (#{jsessionid}, #{commitCode})
+    </insert>
+    <select id="queryCodeByuserId" resultType="boolean">
+        SELECT commit_state
+        FROM CommitCode
+        WHERE jsessionid = #{jsessionid} AND commit_code = #{commitCode}
+    </select>
+
+    <update id="changeStates">
+        UPDATE CommitCode
+        SET commit_state = #{commitState}
+        WHERE jsessionid = #{jsessionid} AND commit_code = #{commitCode}
+    </update>
+</mapper>

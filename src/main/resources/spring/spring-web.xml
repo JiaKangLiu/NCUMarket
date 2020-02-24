@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--1.开启mvc注解-->
+    <mvc:annotation-driven/>
+    <!--2.静态资源加载-->
+    <mvc:default-servlet-handler/>
+    <!--3.配置jsp-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/NCUAdmin/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--4.扫描controller-->
+    <context:component-scan base-package="com.newMedia.web"/>
+    <!--5.拦截器配置-->
+
+    <mvc:interceptors>
+        <!-- 检查用户权限，对于部分不需要权限的路径进行排除 -->
+        <mvc:interceptor>
+            <!-- 先匹配所有路径，然后排除不需要检查的路径 -->
+            <mvc:mapping path="/**"/>
+            <!-- 与登录相关的请求 -->
+            <mvc:exclude-mapping path="/registry/createUser"/>
+            <mvc:exclude-mapping path="/NCUAdmin/login"/>
+            <mvc:exclude-mapping path="/NCUAdmin/confirmLogin"/>
+            <!--<mvc:exclude-mapping path="/NCUAdmin"/>-->
+            <mvc:exclude-mapping path="/index"/>
+            <mvc:exclude-mapping path="/category/**"/>
+            <mvc:exclude-mapping path="/upToken"/>
+            <mvc:exclude-mapping path="/checkSession"/>
+            <!-- 以下是静态资源 -->
+            <mvc:exclude-mapping path="/resource/img/**"/>
+            <mvc:exclude-mapping path="/resource/css/**"/>
+            <mvc:exclude-mapping path="/resource/js/**"/>
+            <mvc:exclude-mapping path="/resource/view/**"/>
+            <mvc:exclude-mapping path="/common/**"/>
+            <!-- 用户是否已经登录的检查 -->
+            <bean id="loginInterceptor" class="com.newMedia.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+</beans>

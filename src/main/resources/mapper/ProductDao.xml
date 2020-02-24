@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.ProductDao">
+    <!--1.éè¿åç±»Idè·åproducts-->
+    <select id="getProductsByCategoryIdandTime" resultType="Product">
+        SELECT TOP ${pageSize}
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.product_imgcounts,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            w.open_id    "seller.openId",
+            w.nick_name  "seller.nickName",
+            w.avatar_url "seller.avatarUrl"
+        FROM Product p INNER JOIN WUser w ON p.seller_openid = w.open_id
+        WHERE P.id NOT IN (SELECT TOP ${offset} id
+                           FROM Product
+                           WHERE
+                               category_id = #{categoryId} AND state = 1
+                           ORDER BY id
+                           DESC)
+              AND p.category_id = #{categoryId} AND w.state = 1 AND p.state = 1
+        ORDER BY p.id DESC
+    </select>
+    <!--2.æ·»å ååï¼è¿åid-->
+    <select id="addProduct" resultType="int">
+        INSERT INTO
+            Product (product_tittle, product_imgcounts, product_info, product_price, product_stock, seller_phone,
+                     category_id, seller_openid, product_imgurl, form_id)
+        VALUES
+            (#{productTittle}, #{productImgcounts}, #{productInfo}, #{productPrice}, #{productStock}, #{sellerPhone},
+             #{categoryId}, #{sellerOpenid}, #{productImgurl}, #{formId})
+        SELECT @@identity
+    </select>
+    <!--3.è´­ä¹°-->
+    <update id="buyProductState">
+        UPDATE Product
+        SET state = #{state}, product_stock = product_stock - 1
+        WHERE id = #{id} AND seller_openid != #{userOpenid}
+    </update>
+    <!--4.éè¿sellerOpenidè·åç¨æ·å¨é¨è®¢ååè¡¨-->
+    <select id="getProductsBySellerOpenid" resultType="Product">
+        SELECT
+            id,
+            product_tittle,
+            product_imgurl,
+            product_info,
+            product_price,
+            product_stock,
+            seller_phone,
+            create_time,
+            state,
+            category_id,
+            seller_openid,
+            star_counts
+        FROM Product
+        WHERE seller_openid = #{sellerOpenid}
+        ORDER BY create_time
+    </select>
+    <!--5.å é¤åå-->
+    <delete id="deleteProduct">
+        DELETE FROM Product
+        WHERE id = #{productId} AND state != 3 AND seller_openid = #{sellerOpenid}
+    </delete>
+    <!--6.è¿ç¨æ·Id,stateè·åproducts,ä¼ å¥stateï¼è¡¨ç¤ºå·²å®åºåæªå®åº-->
+    <select id="getPCountsBySellerIdandState" resultType="int">
+        SELECT count(*)
+        FROM Product
+        WHERE seller_openid = #{sellerId} AND state = #{state};
+    </select>
+
+    <!--7.ç¨æ·Idè·åproductsæ»æ°-->
+    <select id="getPCountsBySellerId" resultType="int">
+        SELECT count(*)
+        FROM Product
+        WHERE seller_openid = #{sellerId}
+    </select>
+    <!--8.éè¿ç¨æ·idä»¥åååstateè·åproducts-->
+    <select id="getProductsBySellerIdandState" resultType="Product">
+        SELECT *
+        FROM Product
+        WHERE seller_openid = #{sellerId} AND state = #{state}
+        ORDER BY create_time
+    </select>
+    <!--9.éè¿ååidè·åproducts-->
+    <select id="getProductByPId" resultType="Product">
+        SELECT
+            p.id,
+            p.product_tittle,
+            p.product_imgcounts,
+            p.product_imgurl,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            p.form_id,
+            w.open_id    "seller.openId",
+            w.nick_name  "seller.nickName",
+            w.avatar_url "seller.avatarUrl",
+            w.gender     "seller.gender"
+        FROM Product p INNER JOIN WUser w ON p.seller_openid = w.open_id
+        WHERE p.id = #{productId}
+        ORDER BY p.create_time
+    </select>
+
+    <!--   10.queryALL -->
+    <select id="queryAllByTime" resultType="Product">
+        SELECT TOP ${pageSize}
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            p.product_imgcounts,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            w.open_id    "seller.openId",
+            w.nick_name  "seller.nickName",
+            w.avatar_url "seller.avatarUrl"
+        FROM Product p INNER JOIN WUser w ON p.seller_openid = w.open_id
+        WHERE P.id NOT IN (SELECT TOP ${offset} id
+                           FROM Product
+                           WHERE
+                               state = 1
+                           ORDER BY id DESC)
+              AND w.state = 1 AND p.state = 1
+        ORDER BY p.id DESC
+    </select>
+
+    <!--   11.queryAllByStar -->
+    <select id="queryAllByStar" resultType="Product">
+        SELECT TOP ${pageSize}
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            p.product_imgcounts,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            w.open_id    "seller.openId",
+            w.nick_name  "seller.nickName",
+            w.gender     "seller.gender",
+            w.avatar_url "seller.avatarUrl"
+        FROM Product p INNER JOIN WUser w ON p.seller_openid = w.open_id
+        WHERE P.id NOT IN (SELECT TOP ${offset} id
+                           FROM Product
+                           WHERE
+                               state = 1
+                           ORDER BY star_counts DESC)
+              AND w.state = 1 AND p.state = 1
+        ORDER BY p.star_counts DESC
+    </select>
+    <!--éè¿åç±»ä¸ç­åº¦æ¥è¯¢-->
+    <select id="getProductsByCategoryIdandstar" resultType="Product">
+        SELECT TOP ${pageSize}
+            p.id,
+            p.product_tittle,
+            p.product_imgurl,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.product_imgcounts,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            w.open_id    "seller.openId",
+            w.nick_name  "seller.nickName",
+            w.avatar_url "seller.avatarUrl"
+        FROM Product p INNER JOIN WUser w ON p.seller_openid = w.open_id
+        WHERE P.id NOT IN (SELECT TOP ${offset} id
+                           FROM Product
+                           WHERE
+                               category_id = #{categoryId} AND state = 1
+                           ORDER BY p.star_counts DESC)
+              AND p.category_id = #{categoryId} AND w.state = 1 AND p.state = 1
+        ORDER BY p.star_counts DESC
+    </select>
+
+    <!-- æ¹åååä¸ä¸æ¶ -->
+    <update id="changeProductState">
+        UPDATE Product
+        SET state = #{state}
+        WHERE id = #{id} AND seller_openid = #{userOpenid}
+    </update>
+    <!--æ¥çååç¶æ -->
+    <select id="queryProductStateById" resultType="int">
+        SELECT state
+        FROM Product
+        WHERE id = #{pid}
+    </select>
+    <!--æ¥çæªå®¡æ ¸ååç¶æ-->
+    <select id="queryNoChecked" resultType="Product">
+        SELECT TOP ${pageSize}
+            id,
+            product_tittle,
+            product_imgurl,
+            product_info,
+            product_price,
+            product_stock,
+            seller_phone,
+            create_time,
+            product_imgcounts,
+            seller_openid
+        FROM Product
+        WHERE id NOT IN (SELECT TOP ${offset} id
+                         FROM Product
+                         WHERE
+                             state = 0
+                         ORDER BY id DESC)
+              AND state = 0
+        ORDER BY id DESC
+    </select>
+    <!--ç®¡çåæ´æ¹ååç¶æ -->
+    <update id="checkProduct">
+        UPDATE Product
+        SET state = #{state}
+        WHERE id = #{pid} AND state = 0
+    </update>
+    <!-- 通过关键词tag_name来搜索返回相应商品 -->
+    <select id="queryBySearch" resultType="Product">
+		SELECT
+            p.id,
+            p.product_tittle,
+            p.product_imgcounts,
+            p.product_imgurl,
+            p.product_info,
+            p.product_price,
+            p.product_stock,
+            p.seller_phone,
+            p.create_time,
+            p.state,
+            p.category_id,
+            p.seller_openid,
+            p.star_counts,
+            p.form_id,
+            w.open_id,
+            w.nick_name,
+            w.avatar_url,
+            w.gender,
+            t.tag_name
+        FROM ( Product p INNER JOIN WUser w ON p.seller_openid = w.open_id ) INNER JOIN Tag t ON t.product_id = p.id
+        WHERE tag_name like '%${keyWord}%' or product_tittle like '%${keyWord}%' or product_info like '%${keyWord}%'
+        ORDER BY p.create_time;
+    </select>
+</mapper>

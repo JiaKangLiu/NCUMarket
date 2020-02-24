@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newMedia.dao.MessageBoardDao">
+    <!--1.messages-->
+    <select id="getMessagesByProductId" resultType="MessageBoard">
+        SELECT
+            mb.passenger_id,
+            mb.message,
+            mb.product_id,
+            mb.create_time,
+            pas.open_id    "passenger.openId",
+            pas.nick_name  "passenger.nickName",
+            pas.avatar_url "passenger.avatarUrl",
+            pas.gender     "passenger.gender"
+        FROM MessageBoard mb LEFT JOIN WUser pas ON mb.passenger_id = pas.open_id
+        WHERE mb.product_id = #{productId}
+        ORDER BY mb.create_time
+        UPDATE Product
+        SET star_counts = star_counts + 1
+        WHERE id = #{productId}
+    </select>
+    <!--2.-->
+    <insert id="addMessage">
+        INSERT INTO MessageBoard (passenger_id, product_id, message)
+        VALUES (#{passengerId}, #{productId}, #{message})
+    </insert>
+    <!--3. -->
+    <select id="getMessagesByProductIdandTime" resultType="MessageBoard">
+        SELECT
+            mb.passenger_id,
+            mb.message,
+            mb.product_id,
+            mb.create_time,
+            pas.open_id    "passenger.openId",
+            pas.nick_name  "passenger.nickName",
+            pas.avatar_url "passenger.avatarUrl",
+            pas.gender     "passenger.gender"
+        FROM MessageBoard mb LEFT JOIN WUser pas ON mb.passenger_id = pas.open_id
+        WHERE mb.product_id = #{productId} AND mb.create_time > #{nowTime}
+        ORDER BY mb.create_time;
+    </select>
+</mapper>
